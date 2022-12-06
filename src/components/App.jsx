@@ -73,7 +73,7 @@ export const App = () => {
     <ThemeProvider theme={isDarkTheme ? dayTheme : nightTheme}>
       <Suspense fallback={null}>
         <Routes>
-          <Route path="/" element={<Navigate to="/login" />} />
+          {/* <Route path="/" element={<Navigate to="/login" />} /> */}
 
           <Route
             path="/login"
