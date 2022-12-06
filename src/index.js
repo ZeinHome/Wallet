@@ -7,11 +7,13 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { BrowserRouter } from 'react-router-dom';
 import { FontStyles } from 'components/FontStyles';
 
+axios.defaults.baseURL = 'https://Wallet.onrender.com/api';
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <BrowserRouter>
+        <BrowserRouter basename="/Wallet">
           <FontStyles />
           <App />
         </BrowserRouter>
