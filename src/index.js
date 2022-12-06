@@ -6,6 +6,7 @@ import { App } from 'components/App';
 import { PersistGate } from 'redux-persist/integration/react';
 import { BrowserRouter } from 'react-router-dom';
 import { FontStyles } from 'components/FontStyles';
+import axios from 'axios';
 
 axios.defaults.baseURL = 'https://Wallet.onrender.com/api';
 
