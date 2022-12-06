@@ -93,6 +93,7 @@ export const App = () => {
           />
 
           <Route path="/" element={<DashboardPage />}>
+            <Route index element={<Navigate to="/login" />} />
             <Route
               path="home"
               element={
