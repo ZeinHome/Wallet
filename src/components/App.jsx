@@ -29,22 +29,28 @@ export const App = () => {
 
   const dispatch = useDispatch();
   const isDarkTheme = useSelector(store => store.theme.isNightTheme);
-  const { isLoggedIn, isError, isRefreshingUser } = useSelector(state => state.auth);
-  const { transactions, isModalAddOpen, hasNextPage, pageNum } = useSelector(state => state.transactions);
+  const { isLoggedIn, isError, isRefreshingUser } = useSelector(
+    state => state.auth
+  );
+  const { transactions, isModalAddOpen, hasNextPage, pageNum } = useSelector(
+    state => state.transactions
+  );
 
   const observer = useRef(null);
 
-  const lastElement = useCallback(item => {
+  const lastElement = useCallback(
+    item => {
+      observer.current = new IntersectionObserver(
+        entries => {
+          if (entries[0].isIntersecting && hasNextPage) {
+            observer.current.unobserve(entries[0].target);
+            dispatch(getNextPage());
+          }
+        },
+        { rootMargin: '5px', threshold: 1 }
+      );
 
-    observer.current = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting && hasNextPage) {
-        observer.current.unobserve(entries[0].target);
-        dispatch(getNextPage());
-      }
-      }, { rootMargin: '5px',threshold: 1});
-
-      if (item)  observer.current.observe(item);
-      
+      if (item) observer.current.observe(item);
     },
     [dispatch, hasNextPage]
   );
@@ -58,10 +64,8 @@ export const App = () => {
   }, [dispatch]);
 
   if (transactions.length < 0) return null;
-  
 
-  if (isError)  toast.error(isError)
-  
+  if (isError) toast.error(isError);
 
   return isRefreshingUser ? (
     <Spinner />
@@ -76,14 +80,16 @@ export const App = () => {
             element={
               <PublicRoute restricted navigateTo="/home">
                 <LoginPage />
-              </PublicRoute>}
+              </PublicRoute>
+            }
           />
           <Route
             path="/register"
             element={
               <PublicRoute restricted navigateTo="/home">
                 <LoginPage />
-              </PublicRoute>}
+              </PublicRoute>
+            }
           />
 
           <Route path="/" element={<DashboardPage />}>
@@ -93,28 +99,32 @@ export const App = () => {
                 <PrivateRoute>
                   <HomeTab data={transactions} ref={lastElement} />
                   <ButtonAddTransactions />
-                </PrivateRoute>}
+                </PrivateRoute>
+              }
             />
             <Route
               path="statistic"
               element={
                 <PrivateRoute>
                   <DiagramTab />
-                </PrivateRoute>}
+                </PrivateRoute>
+              }
             />
 
             <Route
               path="currency"
               element={
                 <PrivateRoute>
-                  {isMobie
-                    ? <Currency />
-                    : <div>
+                  {isMobie ? (
+                    <Currency />
+                  ) : (
+                    <div>
                       <HomeTab />
                       <ButtonAddTransactions />
                     </div>
-                  }
-                </PrivateRoute>}
+                  )}
+                </PrivateRoute>
+              }
             ></Route>
           </Route>
           <Route path="/*" element={<NotFoundPage />} />
