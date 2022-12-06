@@ -8,7 +8,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { FontStyles } from 'components/FontStyles';
 import axios from 'axios';
 
-axios.defaults.baseURL = 'https://Wallet.onrender.com/api';
+axios.defaults.baseURL = 'https:///wallet-project.onrender.com/api';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
